@@ -1,0 +1,2 @@
+# Structurizr cli gradle plugin
+
