@@ -36,7 +36,7 @@ class GradleStructurizrCliPluginFunctionalTest {
         runner.withPluginClasspath()
         runner.withArguments("structurizrCliDownload")
         runner.withProjectDir(projectDir)
-        val result = runner.build();
+        val result = runner.build()
 
         assertTrue(result.output.contains("Hello from plugin 'pl.zalas.gradle.structurizrcli'"))
     }

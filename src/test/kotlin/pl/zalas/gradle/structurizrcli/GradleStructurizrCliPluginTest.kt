@@ -21,7 +21,7 @@ import kotlin.test.assertNotNull
 
 class GradleStructurizrCliPluginTest {
     @Test
-    fun `plugin registers task`() {
+    fun `it registers the structurizrCliDownload task`() {
         val project = ProjectBuilder.builder().build()
         project.plugins.apply("pl.zalas.gradle.structurizrcli")
 

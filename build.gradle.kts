@@ -1,6 +1,19 @@
+import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+
 plugins {
     `java-gradle-plugin`
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    idea
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.targetCompatibility = JavaVersion.VERSION_1_8
+
+idea {
+    project {
+        jdkName = "1.8"
+        languageLevel = IdeaLanguageLevel("1.8")
+    }
 }
 
 repositories {
