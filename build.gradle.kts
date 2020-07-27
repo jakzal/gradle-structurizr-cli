@@ -17,9 +17,8 @@ dependencies {
 }
 
 gradlePlugin {
-    // Define the plugin
-    val greeting by plugins.creating {
-        id = "pl.zalas.gradle.structurizrcli.greeting"
+    val structurizrcli by plugins.creating {
+        id = "pl.zalas.gradle.structurizrcli"
         implementationClass = "pl.zalas.gradle.structurizrcli.GradleStructurizrCliPlugin"
     }
 }
