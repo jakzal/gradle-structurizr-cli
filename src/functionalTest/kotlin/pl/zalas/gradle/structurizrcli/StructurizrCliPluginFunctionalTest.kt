@@ -21,7 +21,7 @@ import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
-class GradleStructurizrCliPluginFunctionalTest {
+class StructurizrCliPluginFunctionalTest {
 
     @Test
     fun `it downloads structurizr cli`(@TempDir projectDir: File) {

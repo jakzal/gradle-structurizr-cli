@@ -19,7 +19,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
-class GradleStructurizrCliPluginTest {
+class StructurizrCliPluginTest {
     @Test
     fun `it registers the structurizrCliDownload task`() {
         val project = ProjectBuilder.builder().build()

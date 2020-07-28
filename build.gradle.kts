@@ -33,7 +33,7 @@ dependencies {
 gradlePlugin {
     val structurizrcli by plugins.creating {
         id = "pl.zalas.gradle.structurizrcli"
-        implementationClass = "pl.zalas.gradle.structurizrcli.GradleStructurizrCliPlugin"
+        implementationClass = "pl.zalas.gradle.structurizrcli.StructurizrCliPlugin"
     }
 }
 

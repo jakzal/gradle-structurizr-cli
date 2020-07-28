@@ -19,7 +19,7 @@ import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Project
 import org.gradle.api.Plugin
 
-class GradleStructurizrCliPlugin: Plugin<Project> {
+class StructurizrCliPlugin: Plugin<Project> {
 
     override fun apply(project: Project) {
         val extension = project.extensions.create("structurizrCli", StructurizrCliPluginExtension::class.java)
