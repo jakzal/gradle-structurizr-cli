@@ -18,6 +18,7 @@ package pl.zalas.gradle.structurizrcli
 import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Project
 import org.gradle.api.Plugin
+import org.gradle.api.tasks.Copy
 
 class StructurizrCliPlugin: Plugin<Project> {
 
@@ -28,6 +29,11 @@ class StructurizrCliPlugin: Plugin<Project> {
             task.src("https://github.com/structurizr/cli/releases/download/v${extension.version}/structurizr-cli-${extension.version}.zip")
             task.dest("${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip")
             task.overwrite(false)
+        }
+        project.tasks.register("structurizrCliExtract", Copy::class.java) { task ->
+            task.dependsOn("structurizrCliDownload")
+            task.from(project.zipTree("${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip"))
+            task.into("${project.buildDir}/structurizr-cli")
         }
     }
 }

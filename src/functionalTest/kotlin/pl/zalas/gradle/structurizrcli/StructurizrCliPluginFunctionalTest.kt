@@ -52,6 +52,22 @@ class StructurizrCliPluginFunctionalTest {
         assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.3.0.zip").exists())
     }
 
+    @Test
+    fun `it extracts the downloaded structurizr cli`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id('pl.zalas.gradle.structurizrcli')
+            }
+            structurizrCli {
+                version = "1.3.1"
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExtract")
+
+        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/structurizr-cli-1.3.1.jar").exists())
+    }
+
     private fun givenConfiguration(projectDir: File, gradleBuildFile: String) {
         projectDir.resolve("settings.gradle").writeText("")
         projectDir.resolve("build.gradle").writeText(gradleBuildFile)
