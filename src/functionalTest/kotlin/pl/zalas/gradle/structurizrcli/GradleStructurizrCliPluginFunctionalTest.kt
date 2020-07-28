@@ -22,22 +22,30 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class GradleStructurizrCliPluginFunctionalTest {
+
     @Test
-    fun `can run task`(@TempDir projectDir: File) {
-        projectDir.resolve("settings.gradle").writeText("")
-        projectDir.resolve("build.gradle").writeText("""
+    fun `it downloads structurizr cli`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
             plugins {
                 id('pl.zalas.gradle.structurizrcli')
             }
         """)
 
-        val runner = GradleRunner.create()
-        runner.forwardOutput()
-        runner.withPluginClasspath()
-        runner.withArguments("structurizrCliDownload")
-        runner.withProjectDir(projectDir)
-        val result = runner.build()
+        execute(projectDir, "structurizrCliDownload")
 
-        assertTrue(result.output.contains("Hello from plugin 'pl.zalas.gradle.structurizrcli'"))
+        assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.3.1.zip").exists())
+    }
+
+    private fun givenConfiguration(projectDir: File, gradleBuildFile: String) {
+        projectDir.resolve("settings.gradle").writeText("")
+        projectDir.resolve("build.gradle").writeText(gradleBuildFile)
+    }
+
+    private fun execute(projectDir: File, task: String) = GradleRunner.create().run {
+        forwardOutput()
+        withPluginClasspath()
+        withArguments(task)
+        withProjectDir(projectDir)
+        build()
     }
 }

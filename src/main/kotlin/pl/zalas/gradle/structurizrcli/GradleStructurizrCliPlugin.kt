@@ -15,15 +15,17 @@
  */
 package pl.zalas.gradle.structurizrcli
 
+import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Project
 import org.gradle.api.Plugin
 
 class GradleStructurizrCliPlugin: Plugin<Project> {
+
     override fun apply(project: Project) {
-        project.tasks.register("structurizrCliDownload") { task ->
-            task.doLast {
-                println("Hello from plugin 'pl.zalas.gradle.structurizrcli'")
-            }
+        project.tasks.register("structurizrCliDownload", Download::class.java) { task ->
+            task.src("https://github.com/structurizr/cli/releases/download/v1.3.1/structurizr-cli-1.3.1.zip")
+            task.dest("${project.buildDir}/downloads/structurizr-cli-1.3.1.zip")
+            task.overwrite(false)
         }
     }
 }
