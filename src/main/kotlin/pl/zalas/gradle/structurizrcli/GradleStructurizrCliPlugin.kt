@@ -22,9 +22,11 @@ import org.gradle.api.Plugin
 class GradleStructurizrCliPlugin: Plugin<Project> {
 
     override fun apply(project: Project) {
+        val extension = project.extensions.create("structurizrCli", StructurizrCliPluginExtension::class.java)
+
         project.tasks.register("structurizrCliDownload", Download::class.java) { task ->
-            task.src("https://github.com/structurizr/cli/releases/download/v1.3.1/structurizr-cli-1.3.1.zip")
-            task.dest("${project.buildDir}/downloads/structurizr-cli-1.3.1.zip")
+            task.src("https://github.com/structurizr/cli/releases/download/v${extension.version}/structurizr-cli-${extension.version}.zip")
+            task.dest("${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip")
             task.overwrite(false)
         }
     }
