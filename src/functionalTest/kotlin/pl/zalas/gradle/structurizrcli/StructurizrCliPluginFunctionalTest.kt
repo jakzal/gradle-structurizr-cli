@@ -68,9 +68,49 @@ class StructurizrCliPluginFunctionalTest {
         assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/structurizr-cli-1.3.1.jar").exists())
     }
 
+    @Test
+    fun `it exports the workspace in the configured format`(@TempDir projectDir: File) {
+        givenWorkspace(projectDir, "workspace.dsl")
+        givenConfiguration(projectDir, """
+            plugins {
+                id('pl.zalas.gradle.structurizrcli')
+            }
+            structurizrCli {
+                version = "1.3.1"
+                export = ["plantuml": ["${projectDir.absolutePath}/workspace.dsl"]]
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExport")
+
+        assertTrue(File("${projectDir.absolutePath}/structurizr-SystemContext.puml").exists())
+    }
+
     private fun givenConfiguration(projectDir: File, gradleBuildFile: String) {
         projectDir.resolve("settings.gradle").writeText("")
-        projectDir.resolve("build.gradle").writeText(gradleBuildFile)
+        projectDir.resolve("build.gradle").writeText(gradleBuildFile.trimIndent())
+    }
+
+    private fun givenWorkspace(projectDir: File, workspaceFileName: String) {
+        val content = """
+            workspace "Getting Started" "This is a model of my software system." {
+
+            model {
+                user = person "User" "A user of my software system."
+                softwareSystem = softwareSystem "Software System" "My software system."
+
+                user -> softwareSystem "Uses"
+            }
+
+            views {
+                systemContext softwareSystem "SystemContext" "An example of a System Context diagram." {
+                    include *
+                    autoLayout
+                }
+            }
+        }
+        """
+        projectDir.resolve(workspaceFileName).writeText(content.trimIndent())
     }
 
     private fun execute(projectDir: File, task: String) = GradleRunner.create().run {

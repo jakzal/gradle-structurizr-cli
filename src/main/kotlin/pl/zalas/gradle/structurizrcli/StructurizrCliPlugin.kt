@@ -16,11 +16,12 @@
 package pl.zalas.gradle.structurizrcli
 
 import de.undercouch.gradle.tasks.download.Download
-import org.gradle.api.Project
 import org.gradle.api.Plugin
+import org.gradle.api.Project
 import org.gradle.api.tasks.Copy
+import org.gradle.api.tasks.JavaExec
 
-class StructurizrCliPlugin: Plugin<Project> {
+class StructurizrCliPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         val extension = project.extensions.create("structurizrCli", StructurizrCliPluginExtension::class.java)
@@ -34,6 +35,22 @@ class StructurizrCliPlugin: Plugin<Project> {
             task.dependsOn("structurizrCliDownload")
             task.from(project.zipTree("${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip"))
             task.into("${project.buildDir}/structurizr-cli")
+        }
+        project.tasks.register("structurizrCliExport") { task ->
+            task.dependsOn(project.tasks.matching { task -> task.name.startsWith("structurizrCliExport-") })
+        }
+        project.afterEvaluate {
+            val subTasks = extension.export.flatMap { export ->
+                val format = export.key
+                export.value.mapIndexed { index, workspace ->
+                    project.tasks.register("structurizrCliExport-$format-$index", JavaExec::class.java) { task ->
+                        task.dependsOn("structurizrCliExtract")
+                        task.workingDir(project.projectDir)
+                        task.classpath(project.files("${project.buildDir}/structurizr-cli/structurizr-cli-${extension.version}.jar"))
+                        task.args("export", "-workspace", workspace, "-format", format)
+                    }
+                }
+            }
         }
     }
 }
