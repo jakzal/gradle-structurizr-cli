@@ -1,0 +1,29 @@
+name: Build
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+    release:
+        types: [created]
+    schedule:
+        -   cron: '0 0 * * *'
+
+jobs:
+    build:
+        name: Build
+        strategy:
+            matrix:
+                gradle-version: [ current, 5.6.4 ]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up JDK 1.8
+              uses: actions/setup-java@v1
+              with:
+                java-version: 1.8
+            - name: Configure gradle ${{ matrix.gradle-version }}
+              run: sed -i.bkp -e 's/\(distributionUrl=.*gradle\)-[0-9]*\.[0-9]*\(\.[0-9]*\)\{0,1\}\(.*\)/\1-${{ matrix.gradle-version }}\3/' gradle/wrapper/gradle-wrapper.properties
+              if: ${{ matrix.gradle-version != 'current' }}
+            - name: Build
+              run: ./gradlew build --stacktrace
