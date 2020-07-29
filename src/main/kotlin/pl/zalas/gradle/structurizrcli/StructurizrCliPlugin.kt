@@ -26,31 +26,57 @@ class StructurizrCliPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val extension = project.extensions.create("structurizrCli", StructurizrCliPluginExtension::class.java)
 
+        registerDownloadTask(project, extension)
+        registerExtractTask(project, extension)
+        registerExportTask(project, extension)
+    }
+
+    private fun registerDownloadTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliDownload", Download::class.java) { task ->
-            task.src("https://github.com/structurizr/cli/releases/download/v${extension.version}/structurizr-cli-${extension.version}.zip")
-            task.dest("${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip")
+            task.src(downloadUrl(extension))
+            task.dest(downloadsDir(project, extension))
             task.overwrite(false)
         }
+    }
+
+    private fun registerExtractTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliExtract", Copy::class.java) { task ->
             task.dependsOn("structurizrCliDownload")
-            task.from(project.zipTree("${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip"))
-            task.into("${project.buildDir}/structurizr-cli")
+            task.from(project.zipTree(downloadsDir(project, extension)))
+            task.into(structurizrCliDir(project))
         }
+    }
+
+    private fun registerExportTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliExport") { task ->
-            task.dependsOn(project.tasks.matching { task -> task.name.startsWith("structurizrCliExport-") })
+            task.dependsOn(project.tasks.matching {
+                it.name.startsWith("structurizrCliExport-")
+            })
         }
         project.afterEvaluate {
-            val subTasks = extension.export.flatMap { export ->
+            // export tasks need to be created once configuration has been processed
+            extension.export.flatMap { export ->
                 val format = export.key
                 export.value.mapIndexed { index, workspace ->
-                    project.tasks.register("structurizrCliExport-$format-$index", JavaExec::class.java) { task ->
+                    project.tasks.register("structurizrCliExport-$format$index", JavaExec::class.java) { task ->
                         task.dependsOn("structurizrCliExtract")
                         task.workingDir(project.projectDir)
-                        task.classpath(project.files("${project.buildDir}/structurizr-cli/structurizr-cli-${extension.version}.jar"))
+                        task.classpath(project.files(structurizrCliJar(project, extension)))
                         task.args("export", "-workspace", workspace, "-format", format)
                     }
                 }
             }
         }
     }
+
+    private fun downloadUrl(extension: StructurizrCliPluginExtension) =
+            "https://github.com/structurizr/cli/releases/download/v${extension.version}/structurizr-cli-${extension.version}.zip"
+
+    private fun downloadsDir(project: Project, extension: StructurizrCliPluginExtension) =
+            "${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip"
+
+    private fun structurizrCliDir(project: Project) = "${project.buildDir}/structurizr-cli"
+
+    private fun structurizrCliJar(project: Project, extension: StructurizrCliPluginExtension) =
+            "${structurizrCliDir(project)}/structurizr-cli-${extension.version}.jar"
 }
