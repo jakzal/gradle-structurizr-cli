@@ -1,4 +1,6 @@
-# Structurizr cli gradle plugin
+# Structurizr CLI gradle plugin
+
+Enables Gradle to run [Structurizr CLI](https://github.com/structurizr/cli) commands.
 
 ## Configuration
 
@@ -15,6 +17,6 @@ structurizrCli {
 
 ## Tasks
 
-* `structurizrCliDownload` - downloads the structurizr-cli zip file
-* `structurizrCliExtract` - extracts the downloaded structurizr-cli zip file
-* `structurizrCliExport` - exports diagrams with structurizr-cli
+* `structurizrCliDownload` - downloads the Structurizr CLI zip file
+* `structurizrCliExtract` - extracts the downloaded Structurizr CLI zip file
+* `structurizrCliExport` - exports diagrams with Structurizr CLI

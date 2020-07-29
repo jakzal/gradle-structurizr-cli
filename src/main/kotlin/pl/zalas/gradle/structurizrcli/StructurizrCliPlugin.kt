@@ -33,6 +33,8 @@ class StructurizrCliPlugin : Plugin<Project> {
 
     private fun registerDownloadTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliDownload", Download::class.java) { task ->
+            task.group = "documentation"
+            task.description = "Downloads the Structurizr CLI zip"
             task.src(downloadUrl(extension))
             task.dest(downloadsDir(project, extension))
             task.overwrite(false)
@@ -41,6 +43,8 @@ class StructurizrCliPlugin : Plugin<Project> {
 
     private fun registerExtractTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliExtract", Copy::class.java) { task ->
+            task.group = "documentation"
+            task.description = "Extracts the Structurizr CLI zip"
             task.dependsOn("structurizrCliDownload")
             task.from(project.zipTree(downloadsDir(project, extension)))
             task.into(structurizrCliDir(project))
@@ -49,6 +53,8 @@ class StructurizrCliPlugin : Plugin<Project> {
 
     private fun registerExportTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliExport") { task ->
+            task.group = "documentation"
+            task.description = "Runs the export Structurizr CLI command"
             task.dependsOn(project.tasks.matching {
                 it.name.startsWith("structurizrCliExport-")
             })
