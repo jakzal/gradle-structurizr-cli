@@ -9,18 +9,18 @@ Enables Gradle to run [Structurizr CLI](https://github.com/structurizr/cli) comm
 
 ```groovy
 plugins {
-    id('pl.zalas.structurizr-cli') version '1.0.0'
+    id 'pl.zalas.structurizr-cli' version '1.0.0'
 }
 
 structurizrCli {
-    version = "1.3.1"
+    version = '1.3.1'
     export {
-        format = "plantuml"
-        workspace = "docs/diagrams/workspace.dsl"
+        format = 'plantuml'
+        workspace = 'docs/diagrams/workspace.dsl'
     }
     export {
-        format = "json"
-        workspace = "docs/diagrams/workspace.dsl"
+        format = 'json'
+        workspace = 'docs/diagrams/workspace.dsl'
     }
 }
 ```
