@@ -18,6 +18,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
             - name: Determine the version
               # Updates the build version to the tag if it's a release.
               # Otherwise updates the build version to latest tag with the branch name as a suffix (i.e. 1.0.0-feature-upload).
