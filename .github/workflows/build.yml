@@ -28,6 +28,7 @@ jobs:
             - name: Build
               run: ./gradlew build --stacktrace
             - name: Upload artifacs
+              if: ${{ matrix.gradle-version == 'current' }}
               uses: actions/upload-artifact@v2
               with:
                 name: jars
