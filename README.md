@@ -9,7 +9,7 @@ Enables Gradle to run [Structurizr CLI](https://github.com/structurizr/cli) comm
 
 ```groovy
 plugins {
-    id('pl.zalas.gradle.structurizrcli') version '1.0.0'
+    id('pl.zalas.structurizr-cli') version '1.0.0'
 }
 
 structurizrCli {
@@ -29,7 +29,7 @@ structurizrCli {
 
 ```kotlin
 plugins {
-    id("pl.zalas.gradle.structurizrcli") version "1.0.0"
+    id("pl.zalas.structurizr-cli") version "1.0.0"
 }
 
 structurizrCli {

@@ -23,7 +23,7 @@ class StructurizrCliPluginTest {
     @Test
     fun `it registers the structurizrCliDownload task`() {
         val project = ProjectBuilder.builder().build()
-        project.plugins.apply("pl.zalas.gradle.structurizrcli")
+        project.plugins.apply("pl.zalas.structurizr-cli")
 
         assertNotNull(project.tasks.findByName("structurizrCliDownload"))
     }
@@ -31,7 +31,7 @@ class StructurizrCliPluginTest {
     @Test
     fun `it registers the structurizrCliExtract task`() {
         val project = ProjectBuilder.builder().build()
-        project.plugins.apply("pl.zalas.gradle.structurizrcli")
+        project.plugins.apply("pl.zalas.structurizr-cli")
 
         assertNotNull(project.tasks.findByName("structurizrCliExtract"))
     }
@@ -39,7 +39,7 @@ class StructurizrCliPluginTest {
     @Test
     fun `it registers the structurizrCliExport task`() {
         val project = ProjectBuilder.builder().build()
-        project.plugins.apply("pl.zalas.gradle.structurizrcli")
+        project.plugins.apply("pl.zalas.structurizr-cli")
 
         assertNotNull(project.tasks.findByName("structurizrCliExport"))
     }

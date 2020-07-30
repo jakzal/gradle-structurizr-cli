@@ -27,7 +27,7 @@ class StructurizrCliPluginFunctionalTest {
     fun `it downloads structurizr cli`(@TempDir projectDir: File) {
         givenConfiguration(projectDir, """
             plugins {
-                id('pl.zalas.gradle.structurizrcli')
+                id('pl.zalas.structurizr-cli')
             }
         """)
 
@@ -40,7 +40,7 @@ class StructurizrCliPluginFunctionalTest {
     fun `it downloads structurizr cli in the configured version`(@TempDir projectDir: File) {
         givenConfiguration(projectDir, """
             plugins {
-                id('pl.zalas.gradle.structurizrcli')
+                id('pl.zalas.structurizr-cli')
             }
             structurizrCli {
                 version = "1.3.0"
@@ -56,7 +56,7 @@ class StructurizrCliPluginFunctionalTest {
     fun `it extracts the downloaded structurizr cli`(@TempDir projectDir: File) {
         givenConfiguration(projectDir, """
             plugins {
-                id('pl.zalas.gradle.structurizrcli')
+                id('pl.zalas.structurizr-cli')
             }
             structurizrCli {
                 version = "1.3.1"
@@ -73,7 +73,7 @@ class StructurizrCliPluginFunctionalTest {
         givenWorkspace(projectDir, "workspace.dsl")
         givenConfiguration(projectDir, """
             plugins {
-                id('pl.zalas.gradle.structurizrcli')
+                id('pl.zalas.structurizr-cli')
             }
             structurizrCli {
                 version = "1.3.1"
