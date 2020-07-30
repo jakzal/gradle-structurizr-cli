@@ -4,7 +4,11 @@ plugins {
     `java-gradle-plugin`
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
     idea
+    `maven-publish`
 }
+
+group = "pl.zalas"
+version = "1.0.0-dev"
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 java.targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,6 +42,7 @@ gradlePlugin {
     val structurizrcli by plugins.creating {
         id = "pl.zalas.gradle.structurizrcli"
         implementationClass = "pl.zalas.gradle.structurizrcli.StructurizrCliPlugin"
+        description = "Enables Gradle to run Structurizr CLI commands."
     }
 }
 
