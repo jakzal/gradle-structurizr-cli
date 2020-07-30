@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
     idea
     `maven-publish`
+    id("com.gradle.plugin-publish") version "0.12.0"
 }
 
 group = "pl.zalas"
@@ -46,6 +47,12 @@ gradlePlugin {
             description = "Enables Gradle to run Structurizr CLI commands."
         }
     }
+}
+
+pluginBundle {
+    website = "https://github.com/jakzal/gradle-structurizr-cli"
+    vcsUrl = "https://github.com/jakzal/gradle-structurizr-cli.git"
+    tags = listOf("structurizr", "structurizr-cli", "task", "diagrams", "diagrams-as-code")
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest") {
