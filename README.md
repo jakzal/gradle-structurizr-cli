@@ -1,11 +1,11 @@
-# Structurizr CLI gradle plugin
+# Structurizr CLI Gradle plugin
 
 Enables Gradle to run [Structurizr CLI](https://github.com/structurizr/cli) commands.
 
 ## Configuration
 
 
-### Gradle
+### Groovy
 
 ```groovy
 plugins {
