@@ -77,7 +77,10 @@ class StructurizrCliPluginFunctionalTest {
             }
             structurizrCli {
                 version = "1.3.1"
-                export = ["plantuml": ["${projectDir.absolutePath}/workspace.dsl"]]
+                export {
+                    format = "plantuml"
+                    workspace = "${projectDir.absolutePath}/workspace.dsl"
+                }
             }
         """)
 

@@ -61,15 +61,12 @@ class StructurizrCliPlugin : Plugin<Project> {
         }
         project.afterEvaluate {
             // export tasks need to be created once configuration has been processed
-            extension.export.flatMap { export ->
-                val format = export.key
-                export.value.mapIndexed { index, workspace ->
-                    project.tasks.register("structurizrCliExport-$format$index", JavaExec::class.java) { task ->
-                        task.dependsOn("structurizrCliExtract")
-                        task.workingDir(project.projectDir)
-                        task.classpath(project.files(structurizrCliJar(project, extension)))
-                        task.args("export", "-workspace", workspace, "-format", format)
-                    }
+            extension.exports.forEachIndexed { index, export ->
+                project.tasks.register("structurizrCliExport-${export.format}$index", JavaExec::class.java) { task ->
+                    task.dependsOn("structurizrCliExtract")
+                    task.workingDir(project.projectDir)
+                    task.classpath(project.files(structurizrCliJar(project, extension)))
+                    task.args("export", "-workspace", export.workspace, "-format", export.format)
                 }
             }
         }

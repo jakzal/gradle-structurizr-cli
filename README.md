@@ -14,9 +14,14 @@ plugins {
 
 structurizrCli {
     version = "1.3.1"
-    export = [
-        "plantuml": ["docs/diagrams/workspace.dsl"]
-    ]
+    export {
+        format = "plantuml"
+        workspace = "docs/diagrams/workspace.dsl"
+    }
+    export {
+        format = "json"
+        workspace = "docs/diagrams/workspace.dsl"
+    }
 }
 ```
 
@@ -29,9 +34,14 @@ plugins {
 
 structurizrCli {
     version = "1.3.1"
-    export = mapOf(
-        "plantuml" to listOf("docs/diagrams/mastermind.dsl")
-    )
+    export {
+        format = "plantuml"
+        workspace = "docs/diagrams/workspace.dsl"
+    }
+    export {
+        format = "json"
+        workspace = "docs/diagrams/workspace.dsl"
+    }
 }
 ```
 
