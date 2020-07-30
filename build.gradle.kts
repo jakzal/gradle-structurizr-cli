@@ -40,7 +40,8 @@ dependencies {
 
 gradlePlugin {
     val structurizrcli by plugins.creating {
-        id = "pl.zalas.gradle.structurizrcli"
+        id = "pl.zalas.structurizr-cli"
+        displayName = "gradle-structurizr-cli"
         implementationClass = "pl.zalas.gradle.structurizrcli.StructurizrCliPlugin"
         description = "Enables Gradle to run Structurizr CLI commands."
     }
