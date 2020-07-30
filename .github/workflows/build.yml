@@ -27,3 +27,8 @@ jobs:
               if: ${{ matrix.gradle-version != 'current' }}
             - name: Build
               run: ./gradlew build --stacktrace
+            - name: Upload artifacs
+              uses: actions/upload-artifact@v2
+              with:
+                name: jars
+                path: build/libs/*.jar
