@@ -25,8 +25,8 @@ jobs:
               # Otherwise updates the build version to latest tag with the branch name as a suffix (i.e. 1.0.0-feature-upload).
               run: |
                 LAST_VERSION=$(git describe --abbrev=0 --tags 2>/dev/null || echo 0.0.0)
-                VERSION_SUFFIX=$(echo ${{ github.head_ref }} | sed -e 's/^refs\///' -e 's/[^0-9a-zA-Z\-_]/-/g')
-                BUILD_VERSION=$([[ "${{ github.event_name }}" == "release" ]] && echo $LAST_VERSION || echo "$LAST_VERSION-$VERSION_SUFFIX" | sed -e 's/-$//')
+                VERSION_SUFFIX=$(echo ${{ github.head_ref }} | sed -e 's/^refs\///' -e 's/[^0-9a-zA-Z\-_]/-/g' -e 's/^$/SNAPSHOT/')
+                BUILD_VERSION=$([[ "${{ github.event_name }}" == "release" ]] && echo $LAST_VERSION || echo "$LAST_VERSION-$VERSION_SUFFIX")
                 sed -i'' -e "/^version=/s/=.*/=$BUILD_VERSION/" gradle.properties
                 echo $BUILD_VERSION
                 echo "::set-env name=BUILD_VERSION::$BUILD_VERSION"
