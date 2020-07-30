@@ -4,14 +4,34 @@ Enables Gradle to run [Structurizr CLI](https://github.com/structurizr/cli) comm
 
 ## Configuration
 
+
+### Gradle
+
 ```groovy
 plugins {
-    id('pl.zalas.gradle.structurizrcli')
+    id('pl.zalas.gradle.structurizrcli') version '1.0.0'
 }
 
 structurizrCli {
     version = "1.3.1"
-    export = ["plantuml": ["docs/diagrams/workspace.dsl"]]
+    export = [
+        "plantuml": ["docs/diagrams/workspace.dsl"]
+    ]
+}
+```
+
+### Kotlin
+
+```kotlin
+plugins {
+    id("pl.zalas.gradle.structurizrcli") version "1.0.0"
+}
+
+structurizrCli {
+    version = "1.3.1"
+    export = mapOf(
+        "plantuml" to listOf("docs/diagrams/mastermind.dsl")
+    )
 }
 ```
 
