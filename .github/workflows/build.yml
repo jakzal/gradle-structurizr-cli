@@ -46,11 +46,11 @@ jobs:
               with:
                 name: jars
                 path: build/libs/*.jar
-            - name: Upload gradle-strcuturizr-cli.jar
+            - name: Upload artifacts to the release
               if: ${{ matrix.gradle-version == 'current' && github.event_name == 'release' }}
               uses: actions/upload-release-asset@v1
               env:
-                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ github.event.release.upload_url }}
                   asset_path: ./build/libs/gradle-structurizr-cli-${{ env.BUILD_VERSION }}.jar
