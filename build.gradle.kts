@@ -40,9 +40,9 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("structurizr-cli") {
+        create("structurizrCli") {
             id = "pl.zalas.structurizr-cli"
-            displayName = "gradle-structurizr-cli"
+            displayName = "Gradle Structurizr CLI plugin"
             implementationClass = "pl.zalas.gradle.structurizrcli.StructurizrCliPlugin"
             description = "Enables Gradle to run Structurizr CLI commands."
         }
@@ -52,7 +52,7 @@ gradlePlugin {
 pluginBundle {
     website = "https://github.com/jakzal/gradle-structurizr-cli"
     vcsUrl = "https://github.com/jakzal/gradle-structurizr-cli.git"
-    tags = listOf("structurizr", "structurizr-cli", "task", "diagrams", "diagrams-as-code")
+    tags = listOf("structurizr", "structurizr-cli", "task", "diagrams", "diagrams-as-code", "plantuml", "mermaid", "websequencediagrams", "json")
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest") {
