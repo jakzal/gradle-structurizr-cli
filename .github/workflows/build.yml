@@ -46,6 +46,16 @@ jobs:
               with:
                 name: jars
                 path: build/libs/*.jar
+            - name: Upload gradle-strcuturizr-cli.jar
+              if: ${{ matrix.gradle-version == 'current' && github.event_name == 'release' }}
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+              with:
+                  upload_url: ${{ github.event.release.upload_url }}
+                  asset_path: ./build/libs/gradle-structurizr-cli-${{ env.BUILD_VERSION }}.jar
+                  asset_name: gradle-structurizr-cli-${{ env.BUILD_VERSION }}.jar
+                  asset_content_type: application/zip
             - name: Publish
               if: ${{ matrix.gradle-version == 'current' && github.event_name == 'release' }}
               run: ./gradlew publishPlugins -Pgradle.publish.key="$GRADLE_PUBLISH_KEY" -Pgradle.publish.secret="$GRADLE_PUBLISH_SECRET"
