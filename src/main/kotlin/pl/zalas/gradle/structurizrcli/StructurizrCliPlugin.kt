@@ -17,8 +17,8 @@ package pl.zalas.gradle.structurizrcli
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.JavaExec
 import pl.zalas.gradle.structurizrcli.tasks.Download
+import pl.zalas.gradle.structurizrcli.tasks.Export
 import pl.zalas.gradle.structurizrcli.tasks.Extract
 
 class StructurizrCliPlugin : Plugin<Project> {
@@ -55,18 +55,13 @@ class StructurizrCliPlugin : Plugin<Project> {
         project.afterEvaluate {
             // export tasks need to be created once configuration has been processed
             extension.exports.forEachIndexed { index, export ->
-                project.tasks.register("structurizrCliExport-${export.format}$index", JavaExec::class.java) { task ->
+                project.tasks.register("structurizrCliExport-${export.format}$index", Export::class.java) { task ->
                     task.dependsOn("structurizrCliExtract")
-                    task.workingDir(project.projectDir)
-                    task.classpath(project.files(structurizrCliJar(project, extension)))
-                    task.args("export", "-workspace", export.workspace, "-format", export.format)
+                    task.version.set(extension.version)
+                    task.workspace.set(export.workspace)
+                    task.format.set(export.format)
                 }
             }
         }
     }
-
-    private fun structurizrCliDir(project: Project) = "${project.buildDir}/structurizr-cli"
-
-    private fun structurizrCliJar(project: Project, extension: StructurizrCliPluginExtension) =
-            "${structurizrCliDir(project)}/structurizr-cli-${extension.version}.jar"
 }
