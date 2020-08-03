@@ -15,11 +15,11 @@
  */
 package pl.zalas.gradle.structurizrcli
 
-import de.undercouch.gradle.tasks.download.Download
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.JavaExec
+import pl.zalas.gradle.structurizrcli.tasks.Download
 
 class StructurizrCliPlugin : Plugin<Project> {
 
@@ -33,11 +33,7 @@ class StructurizrCliPlugin : Plugin<Project> {
 
     private fun registerDownloadTask(project: Project, extension: StructurizrCliPluginExtension) {
         project.tasks.register("structurizrCliDownload", Download::class.java) { task ->
-            task.group = "documentation"
-            task.description = "Downloads the Structurizr CLI zip"
-            task.src(downloadUrl(extension))
-            task.dest(downloadsDir(project, extension))
-            task.overwrite(false)
+            task.version.set(extension.version)
         }
     }
 
