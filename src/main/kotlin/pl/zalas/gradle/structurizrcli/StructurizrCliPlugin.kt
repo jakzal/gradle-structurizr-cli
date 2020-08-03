@@ -17,9 +17,9 @@ package pl.zalas.gradle.structurizrcli
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.JavaExec
 import pl.zalas.gradle.structurizrcli.tasks.Download
+import pl.zalas.gradle.structurizrcli.tasks.Extract
 
 class StructurizrCliPlugin : Plugin<Project> {
 
@@ -38,12 +38,9 @@ class StructurizrCliPlugin : Plugin<Project> {
     }
 
     private fun registerExtractTask(project: Project, extension: StructurizrCliPluginExtension) {
-        project.tasks.register("structurizrCliExtract", Copy::class.java) { task ->
-            task.group = "documentation"
-            task.description = "Extracts the Structurizr CLI zip"
+        project.tasks.register("structurizrCliExtract", Extract::class.java) { task ->
             task.dependsOn("structurizrCliDownload")
-            task.from(project.zipTree(downloadsDir(project, extension)))
-            task.into(structurizrCliDir(project))
+            task.version.set(extension.version)
         }
     }
 
@@ -67,12 +64,6 @@ class StructurizrCliPlugin : Plugin<Project> {
             }
         }
     }
-
-    private fun downloadUrl(extension: StructurizrCliPluginExtension) =
-            "https://github.com/structurizr/cli/releases/download/v${extension.version}/structurizr-cli-${extension.version}.zip"
-
-    private fun downloadsDir(project: Project, extension: StructurizrCliPluginExtension) =
-            "${project.buildDir}/downloads/structurizr-cli-${extension.version}.zip"
 
     private fun structurizrCliDir(project: Project) = "${project.buildDir}/structurizr-cli"
 
