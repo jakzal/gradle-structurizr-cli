@@ -24,20 +24,20 @@ import kotlin.test.assertTrue
 class StructurizrCliPluginFunctionalTest {
 
     @Test
-    fun `it downloads structurizr cli`(@TempDir projectDir: File) {
+    fun `it determines the structurizr cli version`(@TempDir projectDir: File) {
         givenConfiguration(projectDir, """
             plugins {
                 id 'pl.zalas.structurizr-cli'
             }
         """)
 
-        execute(projectDir, "structurizrCliDownload")
+        val result = execute(projectDir, "structurizrCliVersion")
 
-        assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.3.1.zip").exists())
+        assertTrue(result.output.contains("Structurizr CLI version [0-9.]+".toRegex()))
     }
 
     @Test
-    fun `it downloads structurizr cli in the configured version`(@TempDir projectDir: File) {
+    fun `it uses the configured structurizr cli version`(@TempDir projectDir: File) {
         givenConfiguration(projectDir, """
             plugins {
                 id 'pl.zalas.structurizr-cli'
@@ -47,9 +47,25 @@ class StructurizrCliPluginFunctionalTest {
             }
         """)
 
+        val result = execute(projectDir, "structurizrCliVersion")
+
+        assertTrue(result.output.contains("Structurizr CLI version 1.3.0".toRegex()))
+    }
+
+    @Test
+    fun `it downloads structurizr cli`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                version = "1.3.1"
+            }
+        """)
+
         execute(projectDir, "structurizrCliDownload")
 
-        assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.3.0.zip").exists())
+        assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.3.1.zip").exists())
     }
 
     @Test
@@ -76,7 +92,6 @@ class StructurizrCliPluginFunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "1.3.1"
                 export {
                     format = "plantuml"
                     workspace = "${projectDir.absolutePath}/workspace.dsl"

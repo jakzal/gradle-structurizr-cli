@@ -17,16 +17,28 @@ package pl.zalas.gradle.structurizrcli.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import java.net.URL
 
 open class Version : DefaultTask() {
 
     @Input
-    val version: Property<String> = project.objects.property(String::class.java)
+    val version: Property<String> = project.objects.property(String::class.java).convention(latestVersionProvider())
+
+    init {
+        version.finalizeValueOnRead()
+    }
 
     @TaskAction
     fun determine() {
         println("Structurizr CLI version ${version.get()}")
     }
+
+    private fun latestVersionProvider(): Provider<String> = project.provider(this::latestVersion)
+
+    private fun latestVersion(): String = URL("https://github.com/structurizr/cli/releases")
+            .readText()
+            .replace("(?smi).*?<div.*?label-latest.*?<a.*?title=\"v([0-9.]*)\".*".toRegex(), "$1")
 }

@@ -40,7 +40,7 @@ class StructurizrCliPlugin : Plugin<Project> {
 
     private fun Project.registerDownloadTask(version: TaskProvider<Version>) =
             tasks.register("structurizrCliDownload", Download::class.java) { task ->
-                task.version.set(version.map { it.version.get() })
+                task.version.set(version.flatMap { it.version })
                 task.downloadDirectory.set(layout.buildDirectory.dir("downloads"))
                 task.downloadUrlTemplate.set("https://github.com/structurizr/cli/releases/download/v{VERSION}/structurizr-cli-{VERSION}.zip")
             }
@@ -48,7 +48,7 @@ class StructurizrCliPlugin : Plugin<Project> {
     private fun Project.registerExtractTask(version: TaskProvider<Version>, download: TaskProvider<Download>) =
             tasks.register("structurizrCliExtract", Extract::class.java) { task ->
                 task.dependsOn("structurizrCliDownload")
-                task.version.set(version.map { it.version.get() })
+                task.version.set(version.flatMap { it.version })
                 task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
                 task.downloadDestination.set(download.flatMap { it.downloadDestination })
             }
