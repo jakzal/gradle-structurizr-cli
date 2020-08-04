@@ -18,7 +18,7 @@ package pl.zalas.gradle.structurizrcli
 import org.gradle.api.Action
 
 open class StructurizrCliPluginExtension {
-    var version: String? = "1.3.1"
+    var version: String? = null
     var exports: List<Export> = emptyList()
         private set
 
