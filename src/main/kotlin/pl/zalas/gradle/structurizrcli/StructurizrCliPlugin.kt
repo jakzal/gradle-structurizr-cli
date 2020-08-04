@@ -18,10 +18,7 @@ package pl.zalas.gradle.structurizrcli
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
-import pl.zalas.gradle.structurizrcli.tasks.Download
-import pl.zalas.gradle.structurizrcli.tasks.Export
-import pl.zalas.gradle.structurizrcli.tasks.Extract
-import pl.zalas.gradle.structurizrcli.tasks.Version
+import pl.zalas.gradle.structurizrcli.tasks.*
 
 class StructurizrCliPlugin : Plugin<Project> {
 
@@ -31,6 +28,7 @@ class StructurizrCliPlugin : Plugin<Project> {
         val download = registerDownloadTask(version)
         val extract = registerExtractTask(version, download)
         registerExportTasks(extension, extract)
+        registerPullTask(extract)
     }
 
     private fun Project.registerVersionTask(extension: StructurizrCliPluginExtension) =
@@ -73,4 +71,9 @@ class StructurizrCliPlugin : Plugin<Project> {
             }
         }
     }
+
+    private fun Project.registerPullTask(extract: TaskProvider<Extract>) =
+            tasks.register("structurizrCliPull", Pull::class.java) { task ->
+                task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
+            }
 }

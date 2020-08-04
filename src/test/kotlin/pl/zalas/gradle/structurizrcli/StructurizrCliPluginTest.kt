@@ -51,4 +51,12 @@ class StructurizrCliPluginTest {
 
         assertNotNull(project.tasks.findByName("structurizrCliExport"))
     }
+
+    @Test
+    fun `it registers the structurizrCliPull task`() {
+        val project = ProjectBuilder.builder().build()
+        project.plugins.apply("pl.zalas.structurizr-cli")
+
+        assertNotNull(project.tasks.findByName("structurizrCliPull"))
+    }
 }
