@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pl.zalas.gradle.structurizrcli
+package pl.zalas.gradle.structurizrcli.tasks
 
-import org.gradle.api.Action
+import org.gradle.api.DefaultTask
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.TaskAction
 
-open class StructurizrCliPluginExtension {
-    var version: String? = "1.3.1"
-    var exports: List<Export> = emptyList()
-        private set
+open class Version : DefaultTask() {
 
-    fun export(action: Action<Export>) {
-        Export().let { export ->
-            action.execute(export)
-            exports = exports + export
-        }
+    @Input
+    val version: Property<String> = project.objects.property(String::class.java)
+
+    @TaskAction
+    fun determine() {
+        println("Structurizr CLI version ${version.get()}")
     }
-
-    data class Export(var format: String = "plantuml", var workspace: String = "workspace.dsl")
 }

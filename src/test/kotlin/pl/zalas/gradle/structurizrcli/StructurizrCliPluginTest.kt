@@ -21,6 +21,14 @@ import kotlin.test.assertNotNull
 
 class StructurizrCliPluginTest {
     @Test
+    fun `it registers the structurizrCliVersion task`() {
+        val project = ProjectBuilder.builder().build()
+        project.plugins.apply("pl.zalas.structurizr-cli")
+
+        assertNotNull(project.tasks.findByName("structurizrCliVersion"))
+    }
+
+    @Test
     fun `it registers the structurizrCliDownload task`() {
         val project = ProjectBuilder.builder().build()
         project.plugins.apply("pl.zalas.structurizr-cli")
