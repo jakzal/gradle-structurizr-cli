@@ -29,6 +29,7 @@ class StructurizrCliPlugin : Plugin<Project> {
         val extract = registerExtractTask(version, download)
         registerExportTasks(extension, extract)
         registerPullTask(extract)
+        registerPushTask(extract)
     }
 
     private fun Project.registerVersionTask(extension: StructurizrCliPluginExtension) =
@@ -74,6 +75,11 @@ class StructurizrCliPlugin : Plugin<Project> {
 
     private fun Project.registerPullTask(extract: TaskProvider<Extract>) =
             tasks.register("structurizrCliPull", Pull::class.java) { task ->
+                task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
+            }
+
+    private fun Project.registerPushTask(extract: TaskProvider<Extract>) =
+            tasks.register("structurizrCliPush", Push::class.java) { task ->
                 task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
             }
 }
