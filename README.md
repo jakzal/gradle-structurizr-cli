@@ -32,6 +32,7 @@ structurizrCli {
 * `structurizrCliExtract` - extracts the downloaded Structurizr CLI zip file
 * `structurizrCliExport` - exports diagrams with Structurizr CLI
 * `structurizrCliPull` - pulls a workspace from the Structurizr API with Structurizr CLI
+* `structurizrCliPush` - pushes content to a Structurizr workspace
 
 ## Configuration & usage
 
@@ -76,4 +77,16 @@ Pulls a workspace from the Structurizr API with Structurizr CLI.
     --id 48582 \
     --key 6804d084-a11e-412b-8ce2-060a40557731 \
     --secret 453a265d-099e-491c-89b5-41945395bcfb
+```
+
+### Push
+
+Pushes content to a Structurizr workspace.
+
+```bash
+./gradlew structurizrCliPush \
+    --id 48582 \
+    --key 6804d084-a11e-412b-8ce2-060a40557731 \
+    --secret 453a265d-099e-491c-89b5-41945395bcfb
+    --workspace workspace.dsl
 ```
