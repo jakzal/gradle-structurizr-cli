@@ -14,7 +14,7 @@ jobs:
         name: Build
         strategy:
             matrix:
-                gradle-version: [ current, 6.6-rc-5 ]
+                gradle-version: [ 6.5.1, 6.6.1, current, 6.7-rc-5 ]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
