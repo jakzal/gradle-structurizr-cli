@@ -30,7 +30,7 @@ jobs:
                 BUILD_VERSION=$([[ "${{ github.event_name }}" == "release" ]] && echo $LAST_VERSION || echo "$INCR_VERSION-$VERSION_SUFFIX")
                 sed -i'' -e "/^version=/s/=.*/=$BUILD_VERSION/" gradle.properties
                 echo $BUILD_VERSION
-                echo "::set-env name=BUILD_VERSION::$BUILD_VERSION"
+                echo "BUILD_VERSION=$BUILD_VERSION" >> $GITHUB_ENV
             - name: Set up JDK 1.8
               uses: actions/setup-java@v1
               with:
