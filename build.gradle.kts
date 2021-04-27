@@ -2,7 +2,7 @@ import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
 
 plugins {
     `java-gradle-plugin`
-    id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("org.jetbrains.kotlin.jvm") version "1.5.0"
     idea
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.14.0"
