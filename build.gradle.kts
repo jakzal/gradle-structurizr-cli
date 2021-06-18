@@ -25,7 +25,7 @@ idea {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
