@@ -68,6 +68,7 @@ class StructurizrCliPlugin : Plugin<Project> {
                     task.workspace.set(layout.projectDirectory.file(export.workspace))
                     task.format.set(export.format)
                     task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
+                    task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
                 }
             }
         }
@@ -76,10 +77,12 @@ class StructurizrCliPlugin : Plugin<Project> {
     private fun Project.registerPullTask(extract: TaskProvider<Extract>) =
             tasks.register("structurizrCliPull", Pull::class.java) { task ->
                 task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
+                task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
             }
 
     private fun Project.registerPushTask(extract: TaskProvider<Extract>) =
             tasks.register("structurizrCliPush", Push::class.java) { task ->
                 task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
+                task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
             }
 }

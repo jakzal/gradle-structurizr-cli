@@ -23,7 +23,7 @@ import kotlin.test.assertTrue
 class ExtractFunctionalTest : FunctionalTest {
 
     @Test
-    fun `it extracts the downloaded structurizr cli`(@TempDir projectDir: File) {
+    fun `it extracts the downloaded old structurizr cli`(@TempDir projectDir: File) {
         givenConfiguration(projectDir, """
             plugins {
                 id 'pl.zalas.structurizr-cli'
@@ -36,5 +36,21 @@ class ExtractFunctionalTest : FunctionalTest {
         execute(projectDir, "structurizrCliExtract")
 
         assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/structurizr-cli-1.3.1.jar").exists())
+    }
+
+    @Test
+    fun `it extracts the downloaded structurizr cli`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                version = "1.13.0"
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExtract")
+
+        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli-1.13.0.jar").exists())
     }
 }

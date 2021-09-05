@@ -41,6 +41,9 @@ open class Push : DefaultTask() {
     @Optional
     val passphrase: Property<String> = project.objects.property(String::class.java)
 
+    @OutputDirectory
+    val structurizrCliDirectory: DirectoryProperty = project.objects.directoryProperty()
+
     @Option(option = "id", description = "Workspace ID")
     fun setId(id: String) {
         this.id.set(id)
@@ -85,7 +88,8 @@ open class Push : DefaultTask() {
     fun push() {
         project.javaexec { spec ->
             spec.workingDir(project.layout.projectDirectory)
-            spec.classpath(structurizrCliJar.get())
+            spec.classpath(structurizrCliJar.get(), structurizrCliDirectory.dir("lib/*"))
+            spec.mainClass.set("com.structurizr.cli.StructurizrCliApplication")
             spec.args(args("push"))
         }
     }

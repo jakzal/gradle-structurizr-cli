@@ -1,12 +1,10 @@
 package pl.zalas.gradle.structurizrcli.tasks
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import org.gradle.api.tasks.options.Option
 
 open class Pull : DefaultTask() {
@@ -26,6 +24,9 @@ open class Pull : DefaultTask() {
     @Input
     @Optional
     val url: Property<String> = project.objects.property(String::class.java)
+
+    @OutputDirectory
+    val structurizrCliDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     @Option(option = "id", description = "Workspace ID")
     fun setId(id: String) {
@@ -51,7 +52,8 @@ open class Pull : DefaultTask() {
     fun pull() {
         project.javaexec { spec ->
             spec.workingDir(project.layout.projectDirectory)
-            spec.classpath(structurizrCliJar.get())
+            spec.classpath(structurizrCliJar.get(), structurizrCliDirectory.dir("lib/*"))
+            spec.mainClass.set("com.structurizr.cli.StructurizrCliApplication")
             spec.args(args())
         }
     }
