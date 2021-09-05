@@ -16,10 +16,12 @@
 package pl.zalas.gradle.structurizrcli.tasks
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
 open class Export : DefaultTask() {
@@ -33,6 +35,9 @@ open class Export : DefaultTask() {
     @InputFile
     val structurizrCliJar: RegularFileProperty = project.objects.fileProperty()
 
+    @OutputDirectory
+    val structurizrCliDirectory: DirectoryProperty = project.objects.directoryProperty()
+
     init {
         group = "documentation"
         description = "Runs the export Structurizr CLI command"
@@ -42,7 +47,8 @@ open class Export : DefaultTask() {
     fun export() {
         project.javaexec { spec ->
             spec.workingDir(project.layout.projectDirectory)
-            spec.classpath(structurizrCliJar.get())
+            spec.classpath(structurizrCliJar.get(), structurizrCliDirectory.dir("lib/*"))
+            spec.mainClass.set("com.structurizr.cli.StructurizrCliApplication")
             spec.args("export", "-workspace", workspace.get(), "-format", format.get())
         }
     }
