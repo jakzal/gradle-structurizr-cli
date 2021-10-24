@@ -31,7 +31,7 @@ jobs:
                     kotlin-version: '1.4.32'
                   - gradle-version: '7.1.1'
                     kotlin-version: '1.4.32'
-                  - gradle-version: '7.2-rc-3'
+                  - gradle-version: '7.3-rc-2'
                     kotlin-version: '1.5.30'
         runs-on: ubuntu-latest
         steps:
