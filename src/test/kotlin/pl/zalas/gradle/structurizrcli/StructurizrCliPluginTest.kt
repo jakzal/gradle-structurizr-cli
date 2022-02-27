@@ -15,11 +15,16 @@
  */
 package pl.zalas.gradle.structurizrcli
 
+
+import org.gradle.api.internal.project.ProjectInternal
+import org.junit.jupiter.api.io.TempDir
+import java.io.File
 import org.gradle.testfixtures.ProjectBuilder
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class StructurizrCliPluginTest {
+
     @Test
     fun `it registers the structurizrCliVersion task`() {
         val project = ProjectBuilder.builder().build()
@@ -50,6 +55,38 @@ class StructurizrCliPluginTest {
         project.plugins.apply("pl.zalas.structurizr-cli")
 
         assertNotNull(project.tasks.findByName("structurizrCliExport"))
+    }
+
+    @Test
+    fun `it registers a defined structurizrCliExport task with default name`(@TempDir projectDir: File) {
+        projectDir.resolve("build.gradle").writeText("""
+            structurizrCli {
+                export {
+                    format = "plantuml/c4plantuml"
+                }
+            }
+        """.trimIndent())
+        val project = ProjectBuilder.builder().withProjectDir(projectDir).build() as ProjectInternal
+        project.plugins.apply("pl.zalas.structurizr-cli")
+        project.evaluate()
+
+        assertNotNull(project.tasks.findByName("structurizrCliExport-plantuml-c4plantuml0"))
+    }
+
+    @Test
+    fun `it registers a defined structurizrCliExport task with custom name`(@TempDir projectDir: File) {
+        projectDir.resolve("build.gradle").writeText("""
+            structurizrCli {
+                export {
+                    name = "myName"
+                }
+            }
+        """.trimIndent())
+        val project = ProjectBuilder.builder().withProjectDir(projectDir).build() as ProjectInternal
+        project.plugins.apply("pl.zalas.structurizr-cli")
+        project.evaluate()
+
+        assertNotNull(project.tasks.findByName("structurizrCliExport-myName"))
     }
 
     @Test

@@ -63,7 +63,8 @@ class StructurizrCliPlugin : Plugin<Project> {
         afterEvaluate {
             // export tasks need to be created once configuration has been processed
             extension.exports.forEachIndexed { index, export ->
-                tasks.register("structurizrCliExport-${export.format}$index", Export::class.java) { task ->
+                export.name = export.name.ifEmpty { export.format.replace("/", "-") + index }
+                tasks.register("structurizrCliExport-${export.name}", Export::class.java) { task ->
                     task.dependsOn("structurizrCliExtract")
                     task.workspace.set(layout.projectDirectory.file(export.workspace))
                     task.format.set(export.format)

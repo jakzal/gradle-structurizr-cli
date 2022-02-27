@@ -61,6 +61,11 @@ structurizrCli {
         format = "json"
         workspace = "docs/diagrams/workspace.dsl"
     }
+    export {
+        format = "plantuml"
+        workspace = "docs/diagrams/workspace2.dsl"
+        name = "SomeCustomName"
+    }
 }
 ```
 
