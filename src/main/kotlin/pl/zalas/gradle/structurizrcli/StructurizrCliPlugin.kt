@@ -17,6 +17,7 @@ package pl.zalas.gradle.structurizrcli
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
 import org.gradle.api.tasks.TaskProvider
 import pl.zalas.gradle.structurizrcli.tasks.*
 
@@ -25,8 +26,8 @@ class StructurizrCliPlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = project.run {
         val extension = extensions.create("structurizrCli", StructurizrCliPluginExtension::class.java)
         val version = registerVersionTask(extension)
-        val download = registerDownloadTask(version)
-        val extract = registerExtractTask(version, download)
+        val download = registerDownloadTask(extension, version)
+        val extract = registerExtractTask(extension, version, download)
         registerExportTasks(extension, extract)
         registerPullTask(extract)
         registerPushTask(extract)
@@ -37,18 +38,18 @@ class StructurizrCliPlugin : Plugin<Project> {
                 task.version.set(extension.version)
             }
 
-    private fun Project.registerDownloadTask(version: TaskProvider<Version>) =
+    private fun Project.registerDownloadTask(extension: StructurizrCliPluginExtension, version: TaskProvider<Version>) =
             tasks.register("structurizrCliDownload", Download::class.java) { task ->
                 task.version.set(version.flatMap { it.version })
-                task.downloadDirectory.set(layout.buildDirectory.dir("downloads"))
+                task.downloadDirectory.set(downloadsDirectory(extension))
                 task.downloadUrlTemplate.set("https://github.com/structurizr/cli/releases/download/v{VERSION}/structurizr-cli-{VERSION}.zip")
             }
 
-    private fun Project.registerExtractTask(version: TaskProvider<Version>, download: TaskProvider<Download>) =
+    private fun Project.registerExtractTask(extension: StructurizrCliPluginExtension, version: TaskProvider<Version>, download: TaskProvider<Download>) =
             tasks.register("structurizrCliExtract", Extract::class.java) { task ->
                 task.dependsOn("structurizrCliDownload")
                 task.version.set(version.flatMap { it.version })
-                task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
+                task.structurizrCliDirectory.set(structurizrDirectory(extension))
                 task.downloadDestination.set(download.flatMap { it.downloadDestination })
             }
 
@@ -86,4 +87,14 @@ class StructurizrCliPlugin : Plugin<Project> {
                 task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
                 task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
             }
+
+    private fun Project.downloadsDirectory(extension: StructurizrCliPluginExtension): Directory =
+        extension.download.directory?.let {
+            layout.projectDirectory.dir(it)
+        } ?: layout.buildDirectory.dir("downloads").get()
+
+    private fun Project.structurizrDirectory(extension: StructurizrCliPluginExtension): Directory =
+        extension.extract.directory?.let {
+            layout.projectDirectory.dir(it)
+        } ?: layout.buildDirectory.dir("structurizr-cli").get()
 }

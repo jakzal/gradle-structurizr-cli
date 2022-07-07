@@ -37,4 +37,23 @@ class ExtractFunctionalTest : FunctionalTest {
 
         assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli-1.13.0.jar").exists())
     }
+
+    @Test
+    fun `it extracts the downloaded structurizr cli to a custom directory`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                version = "1.19.0"
+                extract {
+                    directory = "structurizr-cli"
+                }
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExtract")
+
+        assertTrue(File("${projectDir.absolutePath}/structurizr-cli/lib/structurizr-cli-1.19.0.jar").exists())
+    }
 }

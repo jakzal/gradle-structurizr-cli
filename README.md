@@ -95,3 +95,39 @@ Pushes content to a Structurizr workspace.
     --secret 453a265d-099e-491c-89b5-41945395bcfb
     --workspace workspace.dsl
 ```
+
+### Download
+
+```bash
+./gradlew structurizrCliDownload
+```
+
+By default, the structurizr-cli zip is downloaded to the `build/downloads` directory.
+
+It can be customised in relation to the project directory:
+
+```kotlin
+structurizrCli {
+    download {
+        directory = "downloads"
+    }
+}
+```
+
+### Extract
+
+```bash
+./gradlew structurizrCliExtract
+```
+
+By default, the structurizr-cli zip is extracted to the `build/structurizr-cli` directory.
+
+It can be customised in relation to the project directory:
+
+```kotlin
+structurizrCli {
+    extract {
+        directory = "structurizr-cli"
+    }
+}
+```
