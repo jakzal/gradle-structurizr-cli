@@ -31,8 +31,10 @@ jobs:
                     kotlin-version: '1.4.32'
                   - gradle-version: '7.1.1'
                     kotlin-version: '1.4.32'
-                  - gradle-version: '7.3-rc-2'
+                  - gradle-version: '7.2'
                     kotlin-version: '1.5.30'
+                  - gradle-version: '7.3.3'
+                    kotlin-version: '1.7.10'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
