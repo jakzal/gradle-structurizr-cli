@@ -62,7 +62,7 @@ jobs:
               run: |
                 [ "${{matrix.kotlin-version}}" == '' ] || ./gradlew build --stacktrace -PkotlinVersion=${{matrix.kotlin-version}}
                 [ "${{matrix.kotlin-version}}" != '' ] || ./gradlew build --stacktrace
-            - name: Upload artifacs
+            - name: Upload artifacts
               if: ${{ matrix.gradle-version == 'current' }}
               uses: actions/upload-artifact@v2
               with:
