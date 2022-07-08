@@ -37,4 +37,23 @@ class DownloadFunctionalTest : FunctionalTest {
 
         assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.13.0.zip").exists())
     }
+
+    @Test
+    fun `it downloads structurizr cli to a custom downloads directory`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                version = "1.19.0"
+                download {
+                    directory = "downloads"
+                }
+            }
+        """)
+
+        execute(projectDir, "structurizrCliDownload")
+
+        assertTrue(File("${projectDir.absolutePath}/downloads/structurizr-cli-1.19.0.zip").exists())
+    }
 }

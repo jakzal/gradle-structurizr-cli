@@ -21,6 +21,8 @@ open class StructurizrCliPluginExtension {
     var version: String? = null
     var exports: List<Export> = emptyList()
         private set
+    var download: Download = Download()
+    var extract: Extract = Extract()
 
     fun export(action: Action<Export>) {
         Export().let { export ->
@@ -29,9 +31,31 @@ open class StructurizrCliPluginExtension {
         }
     }
 
+    fun download(action: Action<Download>) {
+        Download().let { d ->
+            action.execute(d)
+            download = d
+        }
+    }
+
+    fun extract(action: Action<Extract>) {
+        Extract().let { e ->
+            action.execute(e)
+            extract = e
+        }
+    }
+
     data class Export(
-        var format: String = "plantuml", 
+        var format: String = "plantuml",
         var workspace: String = "workspace.dsl",
         var name: String = ""
-        )
+    )
+
+    data class Download(
+        var directory: String? = null
+    )
+
+    data class Extract(
+        var directory: String? = null
+    )
 }
