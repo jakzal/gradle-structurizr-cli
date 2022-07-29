@@ -34,7 +34,7 @@ dependencies {
     implementation("de.undercouch:gradle-download-task:5.1.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
 }
