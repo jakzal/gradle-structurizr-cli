@@ -18,6 +18,7 @@ package pl.zalas.gradle.structurizrcli
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class DownloadFunctionalTest : FunctionalTest {
@@ -45,15 +46,33 @@ class DownloadFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "1.19.0"
+                version = "1.20.1"
                 download {
-                    directory = "downloads"
+                    directory = "tmp"
                 }
             }
         """)
 
         execute(projectDir, "structurizrCliDownload")
 
-        assertTrue(File("${projectDir.absolutePath}/downloads/structurizr-cli-1.19.0.zip").exists())
+        assertTrue(File("${projectDir.absolutePath}/tmp/structurizr-cli-1.20.1.zip").exists())
+    }
+
+    @Test
+    fun `it downloads the latest version of structurizr cli`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+            }
+        """)
+
+        execute(projectDir, "structurizrCliDownload")
+
+        val downloadedFiles = File("${projectDir.absolutePath}/build/downloads/")
+            .listFiles { _, fileName -> fileName.matches("structurizr-cli-.*\\.zip".toRegex()) }
+
+        assertEquals(1, downloadedFiles.size)
     }
 }
