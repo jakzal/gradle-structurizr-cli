@@ -21,7 +21,7 @@ jobs:
                     kotlin-version: '1.7.20'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
               with:
                 fetch-depth: 0
             - name: Determine the version
