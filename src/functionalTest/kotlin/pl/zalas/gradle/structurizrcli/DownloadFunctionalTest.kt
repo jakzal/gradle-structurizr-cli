@@ -30,13 +30,13 @@ class DownloadFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "1.13.0"
+                version = "1.30.0"
             }
         """)
 
         execute(projectDir, "structurizrCliDownload")
 
-        assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.13.0.zip").exists())
+        assertTrue(File("${projectDir.absolutePath}/build/downloads/structurizr-cli-1.30.0.zip").exists())
     }
 
     @Test

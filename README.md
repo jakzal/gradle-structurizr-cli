@@ -43,7 +43,7 @@ The `version` property can be used To force a specific release.
 
 ```kotlin
 structurizrCli {
-    version = "1.13.0"
+    version = "1.30.0"
 }
 ```
 

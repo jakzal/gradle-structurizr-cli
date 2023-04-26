@@ -29,13 +29,13 @@ class ExtractFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "1.13.0"
+                version = "1.30.0"
             }
         """)
 
         execute(projectDir, "structurizrCliExtract")
 
-        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli-1.13.0.jar").exists())
+        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli-1.30.0.jar").exists())
     }
 
     @Test
