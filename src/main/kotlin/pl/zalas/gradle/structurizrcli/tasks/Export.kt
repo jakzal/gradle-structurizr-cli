@@ -47,7 +47,7 @@ open class Export : DefaultTask() {
     fun export() {
         project.javaexec { spec ->
             spec.workingDir(project.layout.projectDirectory)
-            spec.classpath(structurizrCliJar.get(), structurizrCliDirectory.dir("lib/*"))
+            spec.classpath(structurizrCliDirectory.dir("lib/*"))
             spec.mainClass.set("com.structurizr.cli.StructurizrCliApplication")
             spec.args("export", "-workspace", workspace.get(), "-format", format.get())
         }

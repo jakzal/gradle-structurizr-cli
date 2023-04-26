@@ -65,12 +65,15 @@ class StructurizrCliPlugin : Plugin<Project> {
             // export tasks need to be created once configuration has been processed
             extension.exports.forEachIndexed { index, export ->
                 export.name = export.name.ifEmpty { export.format.replace("/", "-") + index }
-                tasks.register("structurizrCliExport-${export.name}", Export::class.java) { task ->
+                tasks.register(export.taskName(), Export::class.java) { task ->
                     task.dependsOn("structurizrCliExtract")
                     task.workspace.set(layout.projectDirectory.file(export.workspace))
                     task.format.set(export.format)
                     task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
-                    task.structurizrCliDirectory.set(layout.buildDirectory.dir("structurizr-cli"))
+                    task.structurizrCliDirectory.set(structurizrDirectory(extension))
+                    extension.exports.getOrNull(index-1)?.also { precedingExport ->
+                        task.mustRunAfter(precedingExport.taskName())
+                    }
                 }
             }
         }
@@ -97,4 +100,6 @@ class StructurizrCliPlugin : Plugin<Project> {
         extension.extract.directory?.let {
             layout.projectDirectory.dir(it)
         } ?: layout.buildDirectory.dir("structurizr-cli").get()
+
+    private fun StructurizrCliPluginExtension.Export.taskName() = "structurizrCliExport-${this.name}"
 }

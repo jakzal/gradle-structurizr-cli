@@ -41,4 +41,40 @@ class ExportFunctionalTest : FunctionalTest {
 
         assertTrue(File("${projectDir.absolutePath}/structurizr-SystemContext.puml").exists())
     }
+
+    @Test
+    fun `it exports multiple workspaces`(@TempDir projectDir: File, @TempDir workspaceDir1: File, @TempDir workspaceDir2: File) {
+        givenWorkspace(workspaceDir1, "workspace1.dsl")
+        givenWorkspace(workspaceDir2, "workspace2.dsl")
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                export {
+                    format = "plantuml"
+                    workspace = "${workspaceDir1.absolutePath}/workspace1.dsl"
+                }
+                export {
+                    format = "plantuml"
+                    workspace = "${workspaceDir2.absolutePath}/workspace2.dsl"
+                }
+                export {
+                    format = "json"
+                    workspace = "${workspaceDir1.absolutePath}/workspace1.dsl"
+                }
+                export {
+                    format = "json"
+                    workspace = "${workspaceDir2.absolutePath}/workspace2.dsl"
+                }
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExport")
+
+        assertTrue(File("${workspaceDir1.absolutePath}/structurizr-SystemContext.puml").exists())
+        assertTrue(File("${workspaceDir2.absolutePath}/structurizr-SystemContext.puml").exists())
+        assertTrue(File("${workspaceDir1.absolutePath}/workspace1.json").exists())
+        assertTrue(File("${workspaceDir2.absolutePath}/workspace2.json").exists())
+    }
 }
