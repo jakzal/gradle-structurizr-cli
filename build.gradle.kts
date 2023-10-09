@@ -10,17 +10,17 @@ plugins {
 
 group = "pl.zalas"
 
-java.sourceCompatibility = JavaVersion.VERSION_11
-java.targetCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 }
 
 idea {
     project {
-        jdkName = "11"
-        languageLevel = IdeaLanguageLevel("11")
+        jdkName = "17"
+        languageLevel = IdeaLanguageLevel("17")
     }
 }
 
