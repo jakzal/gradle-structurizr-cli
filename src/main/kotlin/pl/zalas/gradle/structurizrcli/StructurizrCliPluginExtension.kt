@@ -48,6 +48,7 @@ open class StructurizrCliPluginExtension {
     data class Export(
         var format: String = "plantuml",
         var workspace: String = "workspace.dsl",
+        var output: String? = null,
         var name: String = ""
     )
 
