@@ -97,10 +97,10 @@ class StructurizrCliPlugin : Plugin<Project> {
             layout.projectDirectory.dir(it)
         } ?: layout.buildDirectory.dir("downloads").get()
 
-    private fun Project.outputDirectory(export: StructurizrCliPluginExtension.Export): Directory =
+    private fun Project.outputDirectory(export: StructurizrCliPluginExtension.Export): Directory? =
         export.output?.let {
             layout.projectDirectory.dir(it)
-        } ?: layout.projectDirectory
+        }
 
     private fun Project.structurizrDirectory(extension: StructurizrCliPluginExtension): Directory =
         extension.extract.directory?.let {
