@@ -64,6 +64,7 @@ structurizrCli {
     export {
         format = "plantuml"
         workspace = "docs/diagrams/workspace2.dsl"
+        output = "output"
         name = "SomeCustomName"
     }
 }
