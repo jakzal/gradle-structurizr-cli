@@ -21,6 +21,7 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
@@ -31,6 +32,10 @@ open class Export : DefaultTask() {
 
     @Input
     val format: Property<String> = project.objects.property(String::class.java)
+
+    @OutputDirectory
+    @Optional
+    val output: DirectoryProperty = project.objects.directoryProperty()
 
     @InputFile
     val structurizrCliJar: RegularFileProperty = project.objects.fileProperty()
@@ -49,7 +54,11 @@ open class Export : DefaultTask() {
             spec.workingDir(project.layout.projectDirectory)
             spec.classpath(structurizrCliDirectory.dir("lib/*"))
             spec.mainClass.set("com.structurizr.cli.StructurizrCliApplication")
-            spec.args("export", "-workspace", workspace.get(), "-format", format.get())
+            spec.args(args())
         }
     }
+
+
+    private fun args() = listOf("export", "-workspace",  workspace.get(), "-format", format.get()) +
+            if (output.isPresent) listOf("-output", output.get()) else emptyList()
 }

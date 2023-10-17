@@ -69,6 +69,7 @@ class StructurizrCliPlugin : Plugin<Project> {
                     task.dependsOn("structurizrCliExtract")
                     task.workspace.set(layout.projectDirectory.file(export.workspace))
                     task.format.set(export.format)
+                    task.output.set(outputDirectory(export))
                     task.structurizrCliJar.set(extract.flatMap { it.structurizrCliJar })
                     task.structurizrCliDirectory.set(structurizrDirectory(extension))
                     extension.exports.getOrNull(index-1)?.also { precedingExport ->
@@ -95,6 +96,11 @@ class StructurizrCliPlugin : Plugin<Project> {
         extension.download.directory?.let {
             layout.projectDirectory.dir(it)
         } ?: layout.buildDirectory.dir("downloads").get()
+
+    private fun Project.outputDirectory(export: StructurizrCliPluginExtension.Export): Directory? =
+        export.output?.let {
+            layout.projectDirectory.dir(it)
+        }
 
     private fun Project.structurizrDirectory(extension: StructurizrCliPluginExtension): Directory =
         extension.extract.directory?.let {
