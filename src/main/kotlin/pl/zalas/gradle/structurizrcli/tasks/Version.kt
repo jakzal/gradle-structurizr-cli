@@ -40,5 +40,5 @@ open class Version : DefaultTask() {
 
     private fun latestVersion(): String = URL("https://api.github.com/repos/structurizr/cli/releases/latest")
             .readText()
-            .replace("(?smi).*?\"tag_name\":\\s*\"v([0-9.]*)\".*".toRegex(), "$1")
+            .replace("(?smi).*?\"tag_name\":\\s*\"v?([0-9.]*)\".*".toRegex(), "$1")
 }

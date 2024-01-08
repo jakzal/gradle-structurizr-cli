@@ -32,17 +32,28 @@ open class Download : DefaultTask() {
     @Input
     val version: Property<String> = project.objects.property(String::class.java)
 
+    // Example: https://github.com/structurizr/cli/releases/download/2024.01.02/structurizr-cli.zip
     @Input
     val downloadUrlTemplate: Property<String> = project.objects.property(String::class.java)
 
+    // Example: https://github.com/structurizr/cli/releases/download/v1.35.0/structurizr-cli-1.35.0.zip
     @Input
-    val downloadUrl: Provider<String> = downloadUrlTemplate.flatMap { t -> version.map { v -> t.replace("{VERSION}", v) } }
+    val legacyDownloadUrlTemplate: Property<String> = project.objects.property(String::class.java)
+
+    @Input
+    val downloadUrl: Provider<String> = version.flatMap { v ->
+        when {
+            v.matches("^[0-9]{4}\\..*".toRegex()) -> downloadUrlTemplate.map { t -> t.replace("{VERSION}", v) }
+            else -> legacyDownloadUrlTemplate.map { t -> t.replace("{VERSION}", v) }
+        }
+    }
 
     @OutputDirectory
     val downloadDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     @OutputFile
-    val downloadDestination: Provider<RegularFile> = version.flatMap { v -> downloadDirectory.file("structurizr-cli-$v.zip") }
+    val downloadDestination: Provider<RegularFile> =
+        version.flatMap { v -> downloadDirectory.file("structurizr-cli-$v.zip") }
 
     init {
         group = "documentation"

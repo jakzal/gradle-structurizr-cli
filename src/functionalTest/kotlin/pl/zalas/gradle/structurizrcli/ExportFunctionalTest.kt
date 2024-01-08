@@ -43,6 +43,27 @@ class ExportFunctionalTest : FunctionalTest {
     }
 
     @Test
+    fun `it exports the workspace with a legacy structurizr cli`(@TempDir projectDir: File) {
+        givenWorkspace(projectDir, "workspace.dsl")
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                version = "1.35.0"
+                export {
+                    format = "plantuml"
+                    workspace = "${projectDir.absolutePath}/workspace.dsl"
+                }
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExport")
+
+        assertTrue(File("${projectDir.absolutePath}/structurizr-SystemContext.puml").exists())
+    }
+
+    @Test
     fun `it exports the workspace to a specified output dir`(@TempDir projectDir: File) {
         givenWorkspace(projectDir, "workspace.dsl")
         givenConfiguration(projectDir, """

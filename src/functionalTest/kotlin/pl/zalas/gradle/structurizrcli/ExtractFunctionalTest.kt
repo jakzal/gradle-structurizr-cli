@@ -29,13 +29,29 @@ class ExtractFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "1.30.0"
+                version = "2024.01.02"
             }
         """)
 
         execute(projectDir, "structurizrCliExtract")
 
-        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli-1.30.0.jar").exists())
+        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli.jar").exists())
+    }
+
+    @Test
+    fun `it extracts the downloaded legacy structurizr cli`(@TempDir projectDir: File) {
+        givenConfiguration(projectDir, """
+            plugins {
+                id 'pl.zalas.structurizr-cli'
+            }
+            structurizrCli {
+                version = "1.35.0"
+            }
+        """)
+
+        execute(projectDir, "structurizrCliExtract")
+
+        assertTrue(File("${projectDir.absolutePath}/build/structurizr-cli/lib/structurizr-cli-1.35.0.jar").exists())
     }
 
     @Test
@@ -45,7 +61,7 @@ class ExtractFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "1.19.0"
+                version = "2024.01.02"
                 extract {
                     directory = "structurizr-cli"
                 }
@@ -54,6 +70,6 @@ class ExtractFunctionalTest : FunctionalTest {
 
         execute(projectDir, "structurizrCliExtract")
 
-        assertTrue(File("${projectDir.absolutePath}/structurizr-cli/lib/structurizr-cli-1.19.0.jar").exists())
+        assertTrue(File("${projectDir.absolutePath}/structurizr-cli/lib/structurizr-cli.jar").exists())
     }
 }

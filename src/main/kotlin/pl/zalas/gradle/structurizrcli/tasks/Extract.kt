@@ -35,7 +35,12 @@ open class Extract : DefaultTask() {
     val structurizrCliDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     @OutputFile
-    val structurizrCliJar: Provider<RegularFile> = version.flatMap { v -> structurizrCliDirectory.file("lib/structurizr-cli-$v.jar") }
+    val structurizrCliJar: Provider<RegularFile> = version.flatMap { v ->
+        when {
+            v.matches("^[0-9]{4}\\..*".toRegex()) -> structurizrCliDirectory.file("lib/structurizr-cli.jar")
+            else -> structurizrCliDirectory.file("lib/structurizr-cli-$v.jar")
+        }
+    }
 
     init {
         group = "documentation"
