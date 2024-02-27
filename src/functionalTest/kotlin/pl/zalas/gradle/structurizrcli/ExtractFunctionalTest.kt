@@ -29,7 +29,7 @@ class ExtractFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "2024.01.02"
+                version = "2024.02.22"
             }
         """)
 
@@ -61,7 +61,7 @@ class ExtractFunctionalTest : FunctionalTest {
                 id 'pl.zalas.structurizr-cli'
             }
             structurizrCli {
-                version = "2024.01.02"
+                version = "2024.02.22"
                 extract {
                     directory = "structurizr-cli"
                 }
