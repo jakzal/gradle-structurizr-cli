@@ -32,7 +32,7 @@ open class Download : DefaultTask() {
     @Input
     val version: Property<String> = project.objects.property(String::class.java)
 
-    // Example: https://github.com/structurizr/cli/releases/download/v2024.01.02/structurizr-cli.zip
+    // Example: https://github.com/structurizr/cli/releases/download/v2024.02.22/structurizr-cli.zip
     @Input
     val downloadUrlTemplate: Property<String> = project.objects.property(String::class.java)
 
