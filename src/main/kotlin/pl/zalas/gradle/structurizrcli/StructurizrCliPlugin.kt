@@ -42,7 +42,7 @@ class StructurizrCliPlugin : Plugin<Project> {
             tasks.register("structurizrCliDownload", Download::class.java) { task ->
                 task.version.set(version.flatMap { it.version })
                 task.downloadDirectory.set(downloadsDirectory(extension))
-                task.downloadUrlTemplate.set("https://github.com/structurizr/cli/releases/download/{VERSION}/structurizr-cli.zip")
+                task.downloadUrlTemplate.set("https://github.com/structurizr/cli/releases/download/v{VERSION}/structurizr-cli.zip")
                 task.legacyDownloadUrlTemplate.set("https://github.com/structurizr/cli/releases/download/v{VERSION}/structurizr-cli-{VERSION}.zip")
             }
 
