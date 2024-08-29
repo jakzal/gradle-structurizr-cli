@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     idea
     `maven-publish`
-    id("com.gradle.plugin-publish") version "1.2.1"
+    id("com.gradle.plugin-publish") version "1.2.2"
 }
 
 group = "pl.zalas"
