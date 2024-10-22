@@ -36,7 +36,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.2")
-    testImplementation("org.wiremock:wiremock:3.9.1")
+    testImplementation("org.wiremock:wiremock:3.9.2")
 }
 
 gradlePlugin {
