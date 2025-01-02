@@ -20,7 +20,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-import java.net.URL
+import java.net.URI
 
 open class Version : DefaultTask() {
 
@@ -38,7 +38,8 @@ open class Version : DefaultTask() {
 
     private fun latestVersionProvider(): Provider<String> = project.provider(this::latestVersion)
 
-    private fun latestVersion(): String = URL("https://api.github.com/repos/structurizr/cli/releases/latest")
+    private fun latestVersion(): String = URI.create("https://api.github.com/repos/structurizr/cli/releases/latest")
+            .toURL()
             .readText()
             .replace("(?smi).*?\"tag_name\":\\s*\"v?([0-9.]*)\".*".toRegex(), "$1")
 }
