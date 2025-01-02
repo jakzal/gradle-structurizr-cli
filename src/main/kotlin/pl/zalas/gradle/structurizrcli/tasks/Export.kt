@@ -19,13 +19,11 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
 
-open class Export : DefaultTask() {
+open class Export @Inject constructor(@Internal val execOperations: ExecOperations) : DefaultTask() {
 
     @InputFile
     val workspace: RegularFileProperty = project.objects.fileProperty()
@@ -50,7 +48,7 @@ open class Export : DefaultTask() {
 
     @TaskAction
     fun export() {
-        project.javaexec { spec ->
+        execOperations.javaexec { spec ->
             spec.workingDir(project.layout.projectDirectory)
             spec.classpath(structurizrCliDirectory.dir("lib/*"))
             spec.mainClass.set("com.structurizr.cli.StructurizrCliApplication")
