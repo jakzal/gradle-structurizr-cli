@@ -1,4 +1,5 @@
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     `java-gradle-plugin`
@@ -14,13 +15,15 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 idea {
     project {
-        jdkName = "17"
-        languageLevel = IdeaLanguageLevel("17")
+        jdkName = JvmTarget.JVM_17.target
+        languageLevel = IdeaLanguageLevel(JvmTarget.JVM_17.target)
     }
 }
 
