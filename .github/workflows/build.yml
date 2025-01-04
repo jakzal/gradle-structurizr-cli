@@ -17,8 +17,6 @@ jobs:
                 gradle-version: [ 'current' ]
                 kotlin-version: [ '' ]
                 include:
-                  - gradle-version: '7.6.4'
-                    kotlin-version: '1.7.20'
                   - gradle-version: '8.1.1'
                     kotlin-version: '1.8.10'
                   - gradle-version: '8.2.1'
