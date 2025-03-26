@@ -6,3 +6,5 @@ build
 
 # Ignore settings for IntelliJ IDEA
 .idea
+
+.kotlin

@@ -17,16 +17,8 @@ jobs:
                 gradle-version: [ 'current' ]
                 kotlin-version: [ '' ]
                 include:
-                  - gradle-version: '8.1.1'
-                    kotlin-version: '1.8.10'
-                  - gradle-version: '8.2.1'
-                    kotlin-version: '1.8.20'
-                  - gradle-version: '8.3'
-                    kotlin-version: '1.9.0'
-                  - gradle-version: '8.5'
-                    kotlin-version: '1.9.10'
-                  - gradle-version: '8.10'
-                    kotlin-version: '1.9.24'
+                  - gradle-version: '8.11.1'
+                    kotlin-version: '2.0.20'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -49,7 +41,7 @@ jobs:
                 java-version: 17
                 distribution: 'zulu'
             - name: Configure gradle ${{ matrix.gradle-version }}
-              run: sed -i.bkp -e 's/\(distributionUrl=.*gradle\)-[0-9]*\.[0-9]*\(\.[0-9]*\)\{0,1\}\(.*\)/\1-${{ matrix.gradle-version }}\3/' gradle/wrapper/gradle-wrapper.properties
+              run: sed -i.bkp -e 's/\(distributionUrl=.*gradle\)-[0-9]*\.[0-9]*\(\.[0-9]*\)\{0,1\}.*\(-bin\.zip\)/\1-${{ matrix.gradle-version }}\3/' gradle/wrapper/gradle-wrapper.properties
               if: ${{ matrix.gradle-version != 'current' }}
             - name: Build
               run: |
