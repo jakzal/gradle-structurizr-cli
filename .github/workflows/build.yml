@@ -41,7 +41,7 @@ jobs:
                 java-version: 17
                 distribution: 'zulu'
             - name: Configure gradle ${{ matrix.gradle-version }}
-              run: sed -i.bkp -e 's/\(distributionUrl=.*gradle\)-[0-9]*\.[0-9]*\(\.[0-9]*\)\{0,1\}\(.*\)/\1-${{ matrix.gradle-version }}\3/' gradle/wrapper/gradle-wrapper.properties
+              run: sed -i.bkp -e 's/\(distributionUrl=.*gradle\)-[0-9]*\.[0-9]*\(\.[0-9]*\)\{0,1\}.*\(-bin\.zip\)/\1-${{ matrix.gradle-version }}\3/' gradle/wrapper/gradle-wrapper.properties
               if: ${{ matrix.gradle-version != 'current' }}
             - name: Build
               run: |
