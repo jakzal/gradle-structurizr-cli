@@ -106,6 +106,6 @@ open class Push @Inject constructor(@Internal val execOperations: ExecOperations
             adrs.arg("-adrs") +
             passphrase.arg("-passphrase")
 
-    private fun <T> Property<T>.arg(name: String): List<String> =
+    private fun <T : Any> Property<T>.arg(name: String): List<String> =
             if (isPresent) listOf(name, get().toString()) else emptyList()
 }
