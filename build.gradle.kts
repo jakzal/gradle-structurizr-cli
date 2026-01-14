@@ -14,6 +14,8 @@ group = "pl.zalas"
 java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
+val kotlinVersion: String by project
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
@@ -32,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("de.undercouch:gradle-download-task:5.6.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
