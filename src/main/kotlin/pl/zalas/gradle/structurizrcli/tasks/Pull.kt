@@ -9,9 +9,11 @@ import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
 import javax.inject.Inject
 
+@CacheableTask
 open class Pull @Inject constructor(@Internal val execOperations: ExecOperations) : DefaultTask() {
 
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val structurizrCliJar: RegularFileProperty = project.objects.fileProperty()
 
     @Input

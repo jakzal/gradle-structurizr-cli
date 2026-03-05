@@ -23,12 +23,14 @@ import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
 
+@CacheableTask
 open class Extract : DefaultTask() {
 
     @Input
     val version: Property<String> = project.objects.property(String::class.java)
 
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val downloadDestination: RegularFileProperty = project.objects.fileProperty()
 
     @OutputDirectory
