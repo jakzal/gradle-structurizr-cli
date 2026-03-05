@@ -9,9 +9,11 @@ import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
 import javax.inject.Inject
 
+@CacheableTask
 open class Push @Inject constructor(@Internal val execOperations: ExecOperations) : DefaultTask() {
 
     @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val structurizrCliJar: RegularFileProperty = project.objects.fileProperty()
 
     @Input
@@ -25,13 +27,16 @@ open class Push @Inject constructor(@Internal val execOperations: ExecOperations
 
     @InputFile
     @Optional
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val workspace: RegularFileProperty = project.objects.fileProperty()
 
     @InputDirectory
     @Optional
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     val docs: DirectoryProperty = project.objects.directoryProperty()
 
     @InputDirectory
+    @PathSensitive(PathSensitivity.ABSOLUTE)
     @Optional
     val adrs: DirectoryProperty = project.objects.directoryProperty()
 
